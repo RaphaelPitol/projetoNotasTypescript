@@ -1,9 +1,9 @@
-body{
+/* body{
           background: rgb(86, 83, 83);
           background-image: url("../../assets/background.jpg");
           background-repeat: no-repeat;
           background-size: 100% 100%;
-}
+} */
 .form{
      border:none;
      margin: 14rem auto;
@@ -12,7 +12,8 @@ body{
      align-items: center;
      flex-direction: column;
      width: 35rem;
-     background-color: rgba(217, 232, 226, 0.90);
+     background-color: rgba(81, 85, 83, 0.9); 
+     
 
 }
 .inputs{
