@@ -1,14 +1,15 @@
 :root {
   /* Tema Light */
-  --primary-bg: #ffffff;
+  /* background-image: url("./assets/background.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%; */
+  --primary-bg: #8d8b87;
   --primary-text: #333333;
 }
 
 [data-theme="dark"] {
   /* Tema Dark */
-  /* background-image: url("./assets/background.jpg");
-     background-repeat: no-repeat;
-     background-size: 100% 100%; */
+
   --primary-bg: #333333;
   --primary-text: #ffffff;
 }
@@ -17,3 +18,4 @@ body {
   background-color: var(--primary-bg);
   color: var(--primary-text);
 }
+
