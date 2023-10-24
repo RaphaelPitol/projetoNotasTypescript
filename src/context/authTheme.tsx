@@ -1,6 +1,5 @@
 
 import React, { createContext, useState, ReactNode } from "react";
-import { ConfigProvider } from "antd";
 
 // Definição do tipo do contexto
 interface ThemeContextType {
@@ -16,6 +15,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 interface ThemeContextProviderProps {
   children: ReactNode;
 }
+
 
 export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   children,

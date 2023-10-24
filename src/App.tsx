@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
-import { Login } from "./pages/Login";
-import { ThemeContextProvider, ThemeContext } from "./context/auth";
+import { useContext } from "react";
+
+import { ThemeContext } from "./context/authTheme";
+
+import { AuthProvider } from "./context/authUser";
 
 import { ConfigProvider } from "antd";
 
 import "./index.css";
+import { Router } from "./routes";
 
 export function App() {
   const { theme } = useContext(ThemeContext);
@@ -24,14 +27,16 @@ export function App() {
     <ConfigProvider
       theme={{
         token: theme === "light" ? lightTheme : darkTheme,
-        components:{
-          Button:{
-            colorPrimary: theme === "light" ? "#74099b" : "#274653"
-          }
-        }
+        components: {
+          Button: {
+            colorPrimary: theme === "light" ? "#74099b" : "#274653",
+          },
+        },
       }}
     >
-      <Login />
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
     </ConfigProvider>
   );
 }
