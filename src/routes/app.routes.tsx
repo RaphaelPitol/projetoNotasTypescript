@@ -1,6 +1,6 @@
 import{Routes, Route} from 'react-router-dom'
 
-import { Header } from "../pages/Home";
+import { Home } from "../pages/Home";
 
 
 
@@ -8,7 +8,7 @@ export function AppRoute(){
 
      return(
           <Routes>
-               <Route path='/' element={<Header/>}/>
+               <Route path='/' element={<Home/>}/>
           </Routes>
      )
 }

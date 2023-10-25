@@ -7,7 +7,11 @@ import {
 } from "react";
 import { api } from "../service/api";
 
-const AuthContext = createContext({});
+interface UserAuth{
+  user?:{name: string},
+  signin:(data: SignInInterface)=> void
+}
+const AuthContext = createContext({} as UserAuth);
 
 interface ChildrenInterface {
   children: ReactNode;
@@ -19,20 +23,22 @@ interface SignInInterface {
 }
 
 interface SessionResponse {
-  user: object;
+  user: {
+    name: string
+  },
   token: string;
 }
 
 function AuthProvider({ children }: ChildrenInterface) {
-  const [data, setData] = useState([]);
-// console.log(data.user.name)
+  const [data, setData] = useState<SessionResponse>();
+
   async function signin(data: SignInInterface) {
     try {
       const response = await api.post("/sessions", {
         email: data.email,
         password: data.password,
       });
-     //  setData(response.data)
+  
       const { user, token } = response.data;
       localStorage.setItem("@blocoDeNotas:user", JSON.stringify(user.name));
       localStorage.setItem("@rocketnotes:token", token);
@@ -44,11 +50,11 @@ function AuthProvider({ children }: ChildrenInterface) {
     }
   }
 
-  function signOut() {
-    localStorage.clear();
+  // function signOut() {
+  //   localStorage.clear();
 
-    setData({});
-  }
+  //   setData({});
+  // }
 
   useEffect(() => {
     const token = localStorage.getItem("@rocketnotes:token");
@@ -62,7 +68,7 @@ function AuthProvider({ children }: ChildrenInterface) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signin, signOut, user: data.user }}>
+    <AuthContext.Provider value={{ signin, user: data?.user}}>
       {children}
     </AuthContext.Provider>
   );
