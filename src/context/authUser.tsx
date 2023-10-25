@@ -5,11 +5,13 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+
 import { api } from "../service/api";
 
 interface UserAuth{
   user?:{name: string},
   signin:(data: SignInInterface)=> void
+  signOut: () => void
 }
 const AuthContext = createContext({} as UserAuth);
 
@@ -29,8 +31,11 @@ interface SessionResponse {
   token: string;
 }
 
+
+
 function AuthProvider({ children }: ChildrenInterface) {
-  const [data, setData] = useState<SessionResponse>();
+  const [data, setData] = useState<SessionResponse | null>(null);
+
 
   async function signin(data: SignInInterface) {
     try {
@@ -40,25 +45,28 @@ function AuthProvider({ children }: ChildrenInterface) {
       });
   
       const { user, token } = response.data;
-      localStorage.setItem("@blocoDeNotas:user", JSON.stringify(user.name));
+      localStorage.setItem("@rocketnotes:user", JSON.stringify(user));
       localStorage.setItem("@rocketnotes:token", token);
-      setData({ user, token });
-
+      
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setData({ user, token });
     } catch (error: unknown) {
       alert("Erro Interno");
     }
   }
 
-  // function signOut() {
-  //   localStorage.clear();
-
-  //   setData({});
-  // }
+  function signOut() {
+    localStorage.removeItem("@rocketnotes:user");  // Mais específico do que clear()
+    localStorage.removeItem("@rocketnotes:token");
+    setData(null);  // Limpar o estado
+    delete api.defaults.headers.common["Authorization"]; 
+   
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("@rocketnotes:token");
     const user = localStorage.getItem("@rocketnotes:user");
+    console.log(user)
 
     if (token && user) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -68,7 +76,7 @@ function AuthProvider({ children }: ChildrenInterface) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signin, user: data?.user}}>
+    <AuthContext.Provider value={{user: data?.user, signin, signOut}}>
       {children}
     </AuthContext.Provider>
   );

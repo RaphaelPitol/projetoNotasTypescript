@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../context/authTheme";
+import { useAuth } from './../../context/authUser';
 // import './index.css';
 import { Layout, Space } from "antd";
 import { SelectorTheme } from "../../componentes/SelectorTheme";
@@ -8,6 +9,12 @@ const { Header, Footer, Sider, Content } = Layout;
 
 export function Home() {
   const { theme } = useContext(ThemeContext);
+
+  const { signOut } = useAuth();
+
+  function sair(){
+    signOut()
+  }
 
   return (
     <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
@@ -28,6 +35,7 @@ export function Home() {
           >
             <SelectorTheme />
           </Header>
+            <button onClick={sair}>Sair</button>
           <Content
             style={{
               background: theme === "light" ? "#f5f5f5" : "#434343",
