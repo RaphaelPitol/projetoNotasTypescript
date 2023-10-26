@@ -23,8 +23,7 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({ chil
 
 
   const toggleTheme = () => {
-    
-    localStorage.setItem('scrollPosition', window.scrollY.toString());
+   
 
     if (theme === "light") {
       localStorage.setItem('theme', 'dark');
@@ -45,6 +44,10 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({ chil
     if (savedTheme === "dark") {
       document.body.setAttribute("data-theme", "dark");
       setTheme("dark");
+    } else {
+      document.body.setAttribute("data-theme", "light");
+      setTheme("light");
+
     }
   }, []);
 

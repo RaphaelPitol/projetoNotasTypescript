@@ -1,10 +1,14 @@
-.switch{
-    margin-left: 15%;
- }
- .light-dark{
-    margin: 0 auto;
- }
- .selecTheme{
-    margin-left: 80%;
- }
- 
+.switch {
+  margin-left: 50%;
+}
+.light-dark {
+  margin-top: 0px;
+  text-align: center;
+}
+.selecTheme {
+  display: flex;
+  margin-left: 80%;
+  width: 50px;
+  flex-direction: column;
+  margin-top: -50px;
+}

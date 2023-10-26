@@ -56,7 +56,7 @@ function AuthProvider({ children }: ChildrenInterface) {
   }
 
   function signOut() {
-    localStorage.removeItem("@rocketnotes:user");  // Mais específico do que clear()
+    localStorage.removeItem("@rocketnotes:user");  
     localStorage.removeItem("@rocketnotes:token");
     setData(null);  // Limpar o estado
     delete api.defaults.headers.common["Authorization"]; 

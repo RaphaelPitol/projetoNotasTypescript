@@ -23,12 +23,7 @@ export function App() {
     colorTextBase: "white",
     colorBgContainer: "#190513",
   };
-  useEffect(() => {
-    const savedScrollPosition = localStorage.getItem('scrollPosition');
-    if (savedScrollPosition) {
-      window.scrollTo(0, parseInt(savedScrollPosition, 10));
-    }
-  }, []);
+
   return (
     <ConfigProvider
       theme={{

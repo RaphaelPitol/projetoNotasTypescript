@@ -23,7 +23,7 @@ export function Signin() {
   const { signin } = useAuth();
 
   const onFinish = (values: FieldType) => {
-    //diretamente os valores do formulário para realizar o login
+    
     signin({ email: values.username, password: values.password });
   };
 
