@@ -1,24 +1,57 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SelectorTheme } from "../../componentes/SelectorTheme";
+import Swal from 'sweetalert2'
+
+import { api } from "../../service/api";
 
 import "./styles.css";
 import { Button, Form, Input, Space } from "antd";
+import { useCallback } from "react";
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
+
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
 type FieldType = {
-  username?: string;
-  userEmail?: string;
+  name?: string;
+  email?: string;
   password?: string;
 };
 
 export function SignOut() {
+
+  const navigate = useNavigate()
+
+
+  const creat = useCallback((value: FieldType)=>{
+      async function creatUser() {
+        api.post('/users', value)
+        .then(() => {
+          Swal.fire(
+            'Cadastrado com Sucesso!',
+            'success'
+          )
+          navigate("/");
+        })
+        .catch(error => {
+          if (error.response) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: (error.response.data.message)
+            })
+          } else {
+            alert("Não foi possivel Cadastrar!")
+          }
+        })
+      }
+      creatUser()
+  },[])
+  
+
+  
   return (
     <div id="bod">
       <div className="mai">
@@ -30,7 +63,7 @@ export function SignOut() {
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 700 }}
           initialValues={{ remember: true }}
-          onFinish={onFinish}
+          onFinish={creat}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
@@ -38,7 +71,7 @@ export function SignOut() {
           <div className="inputs">
             <Form.Item<FieldType>
               label="Nome"
-              name="username"
+              name="name"
               rules={[{ required: true, message: "Por favor insira o nome!" }]}
             >
               <Input placeholder="Nome" />
@@ -46,7 +79,7 @@ export function SignOut() {
 
             <Form.Item<FieldType>
               label="Email"
-              name="userEmail"
+              name="email"
               rules={[{ required: true, message: "Por favor insira o email!" }]}
             >
               <Input placeholder="user@email.com"/>
