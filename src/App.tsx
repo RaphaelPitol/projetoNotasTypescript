@@ -21,7 +21,7 @@ export function App() {
   const darkTheme = {
     colorPrimary: "black",
     colorTextBase: "white",
-    colorBgContainer: "#190513",
+    colorBgContainer: "#050104",
   };
 
   return (
@@ -30,7 +30,7 @@ export function App() {
         token: theme === "light" ? lightTheme : darkTheme,
         components: {
           Button: {
-            colorPrimary: theme === "light" ? "#74099b" : "#274653",
+            colorPrimary: theme === "light" ? "#12c333f2" :"#74099b"
           },
         },
       }}

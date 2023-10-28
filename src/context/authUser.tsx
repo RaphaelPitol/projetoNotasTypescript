@@ -5,8 +5,9 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { api } from "../service/api";
+import Swal from 'sweetalert2'
 
 interface UserAuth{
   user?:{name: string},
@@ -32,9 +33,9 @@ interface SessionResponse {
 }
 
 
-
 function AuthProvider({ children }: ChildrenInterface) {
   const [data, setData] = useState<SessionResponse | null>(null);
+  
 
 
   async function signin(data: SignInInterface) {
@@ -56,17 +57,36 @@ function AuthProvider({ children }: ChildrenInterface) {
   }
 
   function signOut() {
-    localStorage.removeItem("@rocketnotes:user");  
-    localStorage.removeItem("@rocketnotes:token");
-    setData(null);  // Limpar o estado
-    delete api.defaults.headers.common["Authorization"]; 
+
+    Swal.fire({
+      text: "Você realmente deseja sair?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#dd6633',
+      confirmButtonText: 'Sair!',
+      cancelButtonText: 'Cancelar'
+
+    }).then((response) => {
+      if (response.isConfirmed) {
+        localStorage.removeItem("@rocketnotes:user");  
+        localStorage.removeItem("@rocketnotes:token");
+        setData(null);  // Limpar o estado
+        delete api.defaults.headers.common["Authorization"]; 
+
+      }
+
+    });
+
+
    
+   
+    
   }
 
   useEffect(() => {
     const token = localStorage.getItem("@rocketnotes:token");
     const user = localStorage.getItem("@rocketnotes:user");
-    console.log(user)
 
     if (token && user) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;

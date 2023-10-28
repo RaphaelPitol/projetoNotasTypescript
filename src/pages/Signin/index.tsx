@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../context/authTheme";
 import { SelectorTheme } from '../../componentes/SelectorTheme';
@@ -22,32 +22,40 @@ export function Signin() {
   const { theme } = useContext(ThemeContext);
   const { signin } = useAuth();
 
+  const navigate = useNavigate()
+
   const onFinish = (values: FieldType) => {
     
     signin({ email: values.username, password: values.password });
   };
 
+  function createUser (){
+    navigate("/register")
+  }
+  
+
   return (
+    
+
     <div id="body">
       <div className="main">
         <h1 style={{
           textAlign: "center",
           fontSize: "3.5rem",
-          marginLeft: "-4%",
-        }}>Bloco de Notas</h1>
+          paddingTop: "2rem",
+          marginLeft: "-2rem",
+        }}>Treinamento</h1>
         <Form
           className="form"
           name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          style={{
-            backgroundColor: theme === "light" ? "#6a6475" : "#5b5b56",
-          }}
           autoComplete="off"
-        >
+          >
+          <div className="theme">
           <SelectorTheme />
+
+          </div>
           <div className="inputs">
             <Form.Item
               label="Username"
@@ -55,7 +63,7 @@ export function Signin() {
               rules={[
                 { required: true, message: "Por favor informe o usuario!" },
               ]}
-            >
+              >
               <Input type="email" placeholder="user@email.com" />
             </Form.Item>
 
@@ -63,7 +71,7 @@ export function Signin() {
               label="Password"
               name="password"
               rules={[{ required: true, message: "Por favor insira a senha!" }]}
-            >
+              >
               <Input.Password />
             </Form.Item>
 
@@ -71,19 +79,23 @@ export function Signin() {
               name="remember"
               valuePropName="checked"
               wrapperCol={{ offset: 8, span: 16 }}
-            >
+              >
               <Checkbox>Remember me</Checkbox>
+            <Button type="link" onClick={createUser}>Criar Conta</Button>
             </Form.Item>
 
-            <Space style={{
-              padding: 20,
-              marginLeft: "15%"
-            }}>
-              <Button type="primary" htmlType="submit">
+             
+
+           <Form.Item
+                wrapperCol={{ offset: 4 }}>
+              <Button type="primary" htmlType="submit" block>
                 Entrar
               </Button>
-              <Link to={'/register'}>Criar Conta</Link>
-            </Space>
+           </Form.Item>
+           
+
+          
+              
           </div>
         </Form>
       </div>

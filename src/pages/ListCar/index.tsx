@@ -1,6 +1,108 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import { api } from '../../service/api';
+import Swal from 'sweetalert2'
+
+
+import { LayoutHome } from '../../componentes/Layout';
+import { Space, Table} from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+
+interface DataType {
+  key: string;
+  name: string;
+  ano: number;
+  marca: string;
+  user: string;
+  id: number
+}
+
+
 export function ListCar(){
 
+  
+const columns: ColumnsType<DataType> = [
+
+  {
+    title: 'Name',
+    dataIndex: 'nome',
+    key: 'nome',
+  },
+  {
+    title: 'Marca',
+    dataIndex: 'marca',
+    key: 'marca',
+  },
+  {
+    title: 'Ano ',
+    dataIndex: 'ano_fabricacao',
+    key: 'ano_fabricacao',
+  },
+  {
+    title: 'Priprietario',
+    key: 'name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record: DataType) => (
+      <Space size="middle">
+        <a >Editar</a>
+        <a onClick={() => delet(record.id)}>Delete</a>
+      </Space>
+    )
+  },
+];
+  
+
+const [car, setCars] = useState<DataType[]|undefined>()
+
+car?.map(c =>(
+  console.log(c.id)
+  ))
+  
+  
+  const delet = useCallback((carId: number)=>{
+    
+    async function handleRemoveCar() {
+      Swal.fire({
+          text: "Você realmente deseja Excluir?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim!',
+          cancelButtonText: 'Não'
+      }).then(async (result) => {
+          if (result.isConfirmed) {
+              await api.delete(`/cars/${carId}`);
+              listCars();
+          }
+      });
+
+     listCars()
+  }
+  handleRemoveCar()
+  },[])
+     
+
+     const listCars = useCallback(() => {
+          async function request() {
+              const response = await api.get('/cars');
+              setCars(response.data);
+          }
+  
+          request()
+  
+      }, [])
+  
+      useEffect(() => {
+          listCars()
+      }, [])
+
      return(
-          <h1>Lista de Carros</h1>
+      <LayoutHome>
+        <Table columns={columns} dataSource={car} />
+      </LayoutHome>
      )
 }

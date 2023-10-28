@@ -55,19 +55,29 @@ export function SignOut() {
   return (
     <div id="bod">
       <div className="mai">
-        <h1>Bloco de Notas</h1>
+        <h1
+        style={{
+          textAlign: "center",
+          fontSize: "3.5rem",
+          paddingTop: "2rem",
+          marginLeft: "1rem",
+        }}
+        >Bloco de Notas</h1>
         <Form
           className="form"
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 700 }}
+          // style={{ maxWidth: 700 }}
           initialValues={{ remember: true }}
           onFinish={creat}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+           <div className="theme">
           <SelectorTheme />
+
+          </div>
           <div className="inputs">
             <Form.Item<FieldType>
               label="Nome"
@@ -96,18 +106,22 @@ export function SignOut() {
             </Form.Item>
           </div>
          
-         <Space
-         style={{
-          padding: 10,
-          marginLeft: "25%",
-        }}
-         >
-            <Button type="primary" htmlType="submit">
-              Gravar
-            </Button>
-            <Link to={'/'}>Ir para login</Link>
+         
+          <Form.Item
+          wrapperCol={{ offset: 21 }}
+          >
+          <Link to={'/'}>Ir para login</Link>
 
-         </Space>
+          </Form.Item>
+       
+          <Form.Item
+                wrapperCol={{ offset: 8 }}>
+              <Button type="primary" htmlType="submit" block>
+                Gravar
+              </Button>
+           </Form.Item>
+
+         
          
         </Form>
       </div>
