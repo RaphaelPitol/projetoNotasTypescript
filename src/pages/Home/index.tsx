@@ -1,14 +1,17 @@
 
 import { LayoutHome } from "../../componentes/Layout";
 
-
+import "./styles.css"
 
 export function Home() {
 
 
   return (
     <LayoutHome>
-      <h1>Training</h1>
+      <div className="divHome">
+        
+      </div>
+     
     </LayoutHome>
   )
 }

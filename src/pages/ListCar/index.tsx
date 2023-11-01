@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../service/api';
 import Swal from 'sweetalert2'
 
@@ -47,20 +48,20 @@ const columns: ColumnsType<DataType> = [
     key: 'action',
     render: (text, record: DataType) => (
       <Space size="middle">
-        <a >Editar</a>
+        <a onClick={()=>newCar(record.id)}>Editar</a>
         <a onClick={() => delet(record.id)}>Delete</a>
       </Space>
     )
   },
 ];
   
-
+const navigate = useNavigate()
 const [car, setCars] = useState<DataType[]|undefined>()
 
-car?.map(c =>(
-  console.log(c.id)
-  ))
-  
+function newCar(carId: number){
+  console.log(carId)
+  navigate(`/newcar/${carId}`)
+}
   
   const delet = useCallback((carId: number)=>{
     
@@ -102,7 +103,18 @@ car?.map(c =>(
 
      return(
       <LayoutHome>
-        <Table columns={columns} dataSource={car} />
+        <h1
+        style={{
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          fontSize: "3rem"
+        }}
+        >Lista de Carros</h1>
+        <Table columns={columns} dataSource={car}
+        style={{
+          margin: "4rem"
+        }}
+        />
       </LayoutHome>
      )
 }

@@ -34,8 +34,8 @@ const items: MenuItem[] = [
   ]),
 
   getItem("Endereço", "sub2", <HomeOutlined />, [
-    getItem("Cadastrar", null, null),
-    getItem("Listar", null, null),
+    getItem("Cadastrar", "newend", null),
+    getItem("Listar", "listend", null),
   ]),
   getItem("Sair", "logout", <LogoutOutlined />),
 ];
@@ -59,6 +59,9 @@ export function LayoutHome({ children }: { children: ReactNode }) {
     if (e.key === "listcar") {
       navigate("/listcar");
     }
+    if (e.key === "listend") {
+      navigate("/listend");
+    }
   };
 
   function home(){
@@ -70,12 +73,12 @@ export function LayoutHome({ children }: { children: ReactNode }) {
       <Layout>
         <Sider
           style={{
-            // background: theme === "light" ? "#3ba0e9" : "black",
+            background: theme === "light" ? "#e9e33bd3" : "black",
             textAlign: "center",
             lineHeight: "120px",
             minHeight: "100vh",
           }}
-          theme={theme}
+          // theme={theme}
           >
           <span onClick={home}
           style={{
@@ -85,7 +88,9 @@ export function LayoutHome({ children }: { children: ReactNode }) {
           >Project Training</span>
           <Menu
             onClick={onClick}
-            style={{ width: 200 }}
+            style={{ width: 200,
+              background: theme === "light" ?"#e9e33bd3" : "black",
+            }}
             mode="vertical"
             items={items}
             theme={theme}
@@ -108,7 +113,7 @@ export function LayoutHome({ children }: { children: ReactNode }) {
             <SelectorTheme />
           </Header>
           <Content style={{
-            background: theme === "light" ? "#3ba0e9" : "black",
+            // background: theme === "light" ? "#3ba0e9" : "black",
           }}>{children}</Content>
           <Footer
             style={{
