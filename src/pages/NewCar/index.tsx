@@ -8,13 +8,13 @@ import { api } from "../../service/api";
 import { ThemeContext } from "../../context/authTheme";
 import "./styles.css";
 
-import { Button, Form, Input, Select} from "antd";
+import { Button, Form, Input, Select } from "antd";
 import Swal from "sweetalert2";
 
 type LayoutType = Parameters<typeof Form>[0]["layout"];
 
 interface TypeValue {
-  id:number,
+  id: number;
   nome: string;
   marca: string;
   ano_fabricacao: string;
@@ -27,64 +27,52 @@ interface User {
 }
 
 export function NewCar() {
-  const navigate = useNavigate()
-  const{theme} = useContext(ThemeContext)
+  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   const { id } = useParams();
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>("horizontal");
 
   const [user, setUser] = useState([]);
+  
 
-  const createCar = useCallback((value: TypeValue)=>{
-    console.log(value)
+  const createCar = useCallback((value: TypeValue) => {
     async function createCar() {
-    if (!id) {
-      try {
-          await api.post("/cars", value)
-          Swal.fire(
-              'Salvo com Sucesso!',
-              'success'
-          )
-          navigate("/listcar")
-          
-      } catch (error:any) {
+      if (!id) {
+        try {
+          await api.post("/cars", value);
+          Swal.fire("Salvo com Sucesso!", "success");
+          navigate("/listcar");
+        } catch (error: any) {
           if (error.response) {
-              alert('Erro do servidor:');
+            alert("Erro do servidor:");
           } else if (error.request) {
-              Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Servidor não respondeu!',
-                  footer: '<a href="">Tente mais tarde!</a>'
-              })
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Servidor não respondeu!",
+              footer: '<a href="">Tente mais tarde!</a>',
+            });
           }
-
+        }
       }
-  }
 
-  if (id) {
-      await api.put("/cars", value)
-      Swal.fire(
-          'Editado com Sucesso!',
-          'success'
-      )
-      navigate("/listcar")
-  }
+      if (id) {
+        await api.put("/cars", value);
+        Swal.fire("Editado com Sucesso!", "success");
+        navigate("/listcar");
+      }
+    }
+    createCar();
+  }, []);
 
-}
-createCar()
-
-  },[])
-
-  const update = useCallback(()=>{
+  const update = useCallback(() => {
     async function fetchData() {
       if (id) {
-      
         try {
           const response = await api.get(`/cars/${id}`);
           const carData = response.data;
 
-         
           form.setFieldsValue({
             id: carData.id,
             nome: carData.nome,
@@ -93,23 +81,19 @@ createCar()
             user_id: carData.user_id,
           });
         } catch (error) {
-         Swal.fire(
-          "error"
-         )
+          Swal.fire("error");
         }
       }
     }
 
     fetchData();
-
-  },[])
-
+  }, []);
 
   useEffect(() => {
     async function listUsers() {
       const response = await api.get("/users");
       setUser(response.data);
-      if(id)update()
+      if (id) update();
     }
     listUsers();
   }, []);
@@ -121,7 +105,7 @@ createCar()
           textAlign: "center",
           fontFamily: "sans-serif",
           fontSize: "3rem",
-          paddingTop: 50
+          paddingTop: 50,
         }}
       >
         Cadostro de Carros
@@ -131,13 +115,9 @@ createCar()
         layout={formLayout}
         form={form}
         onFinish={createCar}
-        style={{ maxWidth: formLayout === "inline" ? "none" : 600, 
-      }}
+        style={{ maxWidth: formLayout === "inline" ? "none" : 600 }}
       >
-        <Form.Item<TypeValue>
-        name="id"
-        >
-        </Form.Item>
+        <Form.Item<TypeValue> name="id"></Form.Item>
         <Form.Item<TypeValue>
           label="Nome do Carango"
           name="nome"
@@ -157,12 +137,11 @@ createCar()
           name="ano_fabricacao"
           rules={[{ required: true, message: "Por favor insira o ano!" }]}
         >
-          <Input placeholder="Data de Fabricação" type="date"/>
+          <Input placeholder="Data de Fabricação" type="date" />
         </Form.Item>
         <Form.Item<TypeValue>
           label="Proprietario"
           name="user_id"
-          
           wrapperCol={{ offset: 2, span: 18 }}
           rules={[
             { required: true, message: "Por favor insira o proprietario!" },
@@ -172,7 +151,9 @@ createCar()
             showSearch
             placeholder="Selecione o proprietario..."
             optionFilterProp="children"
-            dropdownStyle={{ background: theme === "light" ? "#e6edf1" : "black"}}
+            dropdownStyle={{
+              background: theme === "light" ? "#e6edf1" : "black",
+            }}
             filterOption={(inputValue: string, option?: User) =>
               (option?.name ?? "").toLowerCase().includes(inputValue)
             }
@@ -180,9 +161,7 @@ createCar()
             options={user}
           />
         </Form.Item>
-        <Form.Item
-         wrapperCol={{ offset: 9, span: 10 }}
-        >
+        <Form.Item wrapperCol={{ offset: 9, span: 10 }}>
           <Button type="primary" htmlType="submit" block>
             Gravar
           </Button>

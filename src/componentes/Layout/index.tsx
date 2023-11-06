@@ -62,6 +62,9 @@ export function LayoutHome({ children }: { children: ReactNode }) {
     if (e.key === "listend") {
       navigate("/listend");
     }
+    if (e.key === "newend"){
+      navigate("/newend")
+    }
   };
 
   function home(){
@@ -113,7 +116,7 @@ export function LayoutHome({ children }: { children: ReactNode }) {
             <SelectorTheme />
           </Header>
           <Content style={{
-            // background: theme === "light" ? "#3ba0e9" : "black",
+            background: theme === "light" ? "#3ba0e9" : "black",
           }}>{children}</Content>
           <Footer
             style={{
